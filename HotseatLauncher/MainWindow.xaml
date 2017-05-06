@@ -1,0 +1,111 @@
+﻿<Window x:Class="HotseatLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotseatLauncher"
+        mc:Ignorable="d"
+        Title="Rome: Total War - Hotseat Launcher" Height="350" Width="865.5" ResizeMode="NoResize" KeyUp="Window_KeyUp">
+    <Grid x:Name="mainGrid">
+        <Grid x:Name="gamesGrid">
+            <Button x:Name="gStartButton" Content="Start" HorizontalAlignment="Left" Height="21" Margin="750,10,0,0" VerticalAlignment="Top" Width="100" Click="StartGame" IsEnabled="False"/>
+            <Button x:Name="gCreateButton" Content="Create" HorizontalAlignment="Left" Height="21" Margin="750,129,0,0" VerticalAlignment="Top" Width="100" Click="ShowCreationMenu"/>
+            <Button x:Name="gAddButton" Content="Add" HorizontalAlignment="Left" Height="21" Margin="750,155,0,0" VerticalAlignment="Top" Width="100" Click="AddGame"/>
+            <Button x:Name="gRemoveButton" Content="Remove" HorizontalAlignment="Left" Height="21" Margin="750,181,0,0" VerticalAlignment="Top" Width="100" Click="RemoveGame"/>
+            <Button x:Name="gFactionButton" Content="Choose Faction" HorizontalAlignment="Left" Height="21" Margin="750,36,0,0" VerticalAlignment="Top" Width="100" Click="ShowFactionMenu" IsEnabled="False"/>
+            <Button x:Name="gDropOutButton" Content="Drop Out" HorizontalAlignment="Left" Height="21" Margin="750,62,0,0" VerticalAlignment="Top" Width="100" Click="DropOut" IsEnabled="False"/>
+            <ListView x:Name="gGamesListView" HorizontalAlignment="Left" Height="292" Margin="10,9,0,0" VerticalAlignment="Top" Width="718" SelectionChanged="SelectedSessionChange" ItemsSource="{x:Static local:Session.Sessions}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding StateString}" Width="22"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Rename}" Width="170"/>
+                        <GridViewColumn Header="Mod" DisplayMemberBinding="{Binding ModName}" Width="80"/>
+                        <GridViewColumn Header="Campaign" DisplayMemberBinding="{Binding CampaignName}" Width="100"/>
+                        <GridViewColumn Header="Turn" DisplayMemberBinding="{Binding TurnString}" Width="40"/>
+                        <GridViewColumn Header="Current" DisplayMemberBinding="{Binding CurrentFactionString}" Width="100"/>
+                        <GridViewColumn Header="Your Faction" DisplayMemberBinding="{Binding PlayerFactionString}" Width="100"/>
+                        <GridViewColumn Header="Difficulty" DisplayMemberBinding="{Binding Difficulty}" Width="90"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button x:Name="gPickButton" Content="Set Installation" HorizontalAlignment="Left" Height="21" Margin="750,230,0,0" VerticalAlignment="Top" Width="100" Click="gPickButton_Click" IsEnabled="False"/>
+        </Grid>
+        <Grid x:Name="creationGrid" Visibility="Hidden">
+            <Label x:Name="cModLabel" Content="Mod:" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="82"/>
+            <ComboBox x:Name="cModComboBox" HorizontalAlignment="Left" Margin="97,120,0,0" VerticalAlignment="Top" Width="198" DisplayMemberPath="{Binding Source=Name}" SelectionChanged="cModComboBox_SelectionChanged" IsEnabled="False"/>
+            <Label x:Name="cCampaignLabel" Content="Campaign" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="82"/>
+            <ComboBox x:Name="cCampaignComboBox" HorizontalAlignment="Left" Height="24" Margin="97,147,0,0" VerticalAlignment="Top" Width="198" DisplayMemberPath="{Binding Source=Name}" IsEnabled="False" SelectionChanged="cCampaignComboBox_SelectionChanged"/>
+            <ListView x:Name="cInstallListView" HorizontalAlignment="Left" Height="93" Margin="10,10,0,0" VerticalAlignment="Top" Width="718" SelectionChanged="cInstallView_SelectionChanged" ItemsSource="{x:Static local:Settings.Installations}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Version" DisplayMemberBinding="{Binding Version.Name}" Width="160"/>
+                        <GridViewColumn Header="Installation Path" DisplayMemberBinding="{Binding FilePath}" Width="440"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button x:Name="cAddFactionButton" Content=">>" HorizontalAlignment="Left" Margin="471,120,0,0" VerticalAlignment="Top" Width="36" IsEnabled="False" Click="cAddFactionButton_Click"/>
+            <Button x:Name="cRemoveFactionButton" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="471,145,0,0" VerticalAlignment="Top" Width="36" IsEnabled="False" Click="cRemoveFactionButton_Click"/>
+            <ListBox x:Name="cAvailableFactionsListBox" HorizontalAlignment="Left" Margin="336,120,0,17" Width="130" IsEnabled="False" DisplayMemberPath="{Binding Source=Faction.Name}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding AvailableFactions}"/>
+            <ListBox x:Name="cSelectedFactionsListBox" HorizontalAlignment="Left" Height="185" Margin="512,122,0,0" VerticalAlignment="Top" Width="130" IsEnabled="False" DisplayMemberPath="{Binding Source=Faction.Name}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+            <TextBox x:Name="cNameTextBox" HorizontalAlignment="Left" Height="26" Margin="97,182,0,0" VerticalAlignment="Top" Width="198" MaxLines="1" MaxLength="32"/>
+            <Label x:Name="cNameLabel" Content="Game Name:" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Width="82"/>
+            <TextBox x:Name="cTransferTextBox" HorizontalAlignment="Left" Height="26" Margin="97,220,0,0" VerticalAlignment="Top" Width="198" MaxLines="1"/>
+            <Label x:Name="cTransferLabel" Content="Transfer Path:" HorizontalAlignment="Left" Margin="10,221,0,0" VerticalAlignment="Top" Width="82"/>
+            <Button x:Name="cTransferButton" Content="..." HorizontalAlignment="Left" Height="26" Margin="300,220,0,0" VerticalAlignment="Top" Width="31" Click="OpenTransferPathDialog"/>
+            <ComboBox x:Name="cDifficultyComboBox" HorizontalAlignment="Left" Margin="647,206,0,0" VerticalAlignment="Top" Width="108">
+                <ComboBoxItem Content="Easy"/>
+                <ComboBoxItem Content="Medium"/>
+                <ComboBoxItem Content="Hard"/>
+                <ComboBoxItem Content="Very Hard" IsSelected="True"/>
+            </ComboBox>
+            <Label x:Name="cDifficultyLabel" Content="Difficulty:" HorizontalAlignment="Left" Margin="677,180,0,0" VerticalAlignment="Top"/>
+            <ComboBox x:Name="cFactionComboBox" HorizontalAlignment="Left" Margin="647,153,0,0" VerticalAlignment="Top" Width="108" IsEnabled="False" DisplayMemberPath="{Binding Source=Faction.Name}"/>
+            <Label x:Name="cFactionLabel" Content="Faction:" HorizontalAlignment="Left" Margin="677,122,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="cBackButton" Content="Back" HorizontalAlignment="Left" Height="22" Margin="124,283,0,0" VerticalAlignment="Top" Width="91" Click="ShowGameList"/>
+            <Button x:Name="cCreateButton" Content="Create" HorizontalAlignment="Left" Height="22" Margin="220,282,0,0" VerticalAlignment="Top" Width="103" Click="CreateGame"/>
+            <CheckBox x:Name="cNonPlayablesComboBox" Content="Show Nonplayable Factions" HorizontalAlignment="Left" Margin="647,237,0,0" VerticalAlignment="Top" Width="173" Checked="cNonPlayablesComboBox_Checked" Unchecked="cNonPlayablesComboBox_Checked"/>
+            <CheckBox x:Name="cAutoSolveComboBox" Content="Autosolve Battles" HorizontalAlignment="Left" Margin="728,268,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="cAutoManageComboBox" Content="Manage everything" HorizontalAlignment="Left" Margin="728,283,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid x:Name="factionGrid" Visibility="Hidden">
+            <ComboBox x:Name="fFactionComboBox" HorizontalAlignment="Left" Margin="155,127,0,0" VerticalAlignment="Top" Width="190" DisplayMemberPath="{Binding Source=Name}"/>
+            <Label x:Name="fFactionLabel" Content="Faction:" HorizontalAlignment="Left" Margin="74,123,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="fBackButton" Content="Back" HorizontalAlignment="Left" Height="43" Margin="74,177,0,0" VerticalAlignment="Top" Width="82" Click="ShowGameList"/>
+            <Button x:Name="fAcceptButton" Content="Accept" HorizontalAlignment="Left" Height="43" Margin="161,177,0,0" VerticalAlignment="Top" Width="81" Click="ChooseFaction"/>
+            <Button x:Name="fDropOutButton" Content="Drop Out" HorizontalAlignment="Left" Height="43" Margin="269,177,0,0" VerticalAlignment="Top" Width="76" Click="DropOut"/>
+        </Grid>
+        <Grid x:Name="pickGrid" Visibility="Hidden">
+            <Label x:Name="pLabel" Content="Pick version:" HorizontalAlignment="Left" Height="24" Margin="10,9,0,0" VerticalAlignment="Top" Width="191" HorizontalContentAlignment="Right"/>
+            <TextBox x:Name="pTextBox" HorizontalAlignment="Left" Height="24" Margin="206,9,0,0" VerticalAlignment="Top" Width="411" IsEnabled="False"/>
+            <Button x:Name="pBackButton" Content="Back" HorizontalAlignment="Left" Height="33" Margin="282,268,0,0" VerticalAlignment="Top" Width="123" Click="ShowGameList"/>
+            <Button x:Name="pAcceptButton" Content="Accept" HorizontalAlignment="Left" Height="33" Margin="428,268,0,0" VerticalAlignment="Top" Width="123" Click="pAcceptButton_Click"/>
+            <ListView x:Name="pInstallListView" HorizontalAlignment="Left" Height="205" Margin="10,47,0,0" VerticalAlignment="Top" Width="607">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Version" DisplayMemberBinding="{Binding Version.Name}" Width="160"/>
+                        <GridViewColumn Header="Installation Path" DisplayMemberBinding="{Binding FilePath}" Width="440"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <Grid x:Name="settingsGrid" Visibility="Hidden">
+            <Label x:Name="sPathLabel" Content="Installation Directory:" HorizontalAlignment="Left" Height="24" Margin="10,9,0,0" VerticalAlignment="Top" Width="97" HorizontalContentAlignment="Right"/>
+            <TextBox x:Name="sPathTextBox" HorizontalAlignment="Left" Height="24" Margin="112,10,0,0" VerticalAlignment="Top" Width="411" MaxLines="1"/>
+            <Button x:Name="sPathButton" Content="..." HorizontalAlignment="Left" Height="24" Margin="528,10,0,0" VerticalAlignment="Top" Width="42" Click="OpenInstallPathDialog"/>
+            <Button x:Name="sAcceptButton" Content="OK" HorizontalAlignment="Left" Height="33" Margin="282,268,0,0" VerticalAlignment="Top" Width="123" Click="ToggleSettings"/>
+            <ListView x:Name="sInstallListView" HorizontalAlignment="Left" Height="205" Margin="10,47,0,0" VerticalAlignment="Top" Width="607" ItemsSource="{x:Static local:Settings.Installations}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Version" DisplayMemberBinding="{Binding Version.Name}" Width="160"/>
+                        <GridViewColumn Header="Installation Path" DisplayMemberBinding="{Binding FilePath}" Width="440"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button x:Name="sAddButton" Content="Add" HorizontalAlignment="Left" Height="24" Margin="575,9,0,0" VerticalAlignment="Top" Width="42" Click="AddInstallPath"/>
+            <CheckBox x:Name="sWindowedCheckBox" Content="Windowed" HorizontalAlignment="Left" Height="18" Margin="647,51,0,0" VerticalAlignment="Top" Width="81" Checked="sWindowedCheckBox_Checked" Unchecked="sWindowedCheckBox_Checked"/>
+            <CheckBox x:Name="sDisableAudioCheckBox" Content="No Audio" HorizontalAlignment="Left" Height="18" Margin="647,74,0,0" VerticalAlignment="Top" Width="81" Checked="sDisableAudioCheckBox_Checked" Unchecked="sDisableAudioCheckBox_Checked"/>
+            <CheckBox x:Name="sShowErrorsCheckBox" Content="ShowErrors" HorizontalAlignment="Left" Height="18" Margin="647,97,0,0" VerticalAlignment="Top" Width="81" Checked="sShowErrorsCheckBox_Checked" Unchecked="sShowErrorsCheckBox_Checked"/>
+        </Grid>
+        <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Height="24" Margin="801,287,0,0" VerticalAlignment="Top" Width="49" Click="ToggleSettings"/>
+    </Grid>
+</Window>
