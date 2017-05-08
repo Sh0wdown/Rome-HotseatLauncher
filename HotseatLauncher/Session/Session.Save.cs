@@ -24,10 +24,20 @@ namespace HotseatLauncher
                 return false;
 
             using (FileStream output = new FileStream(OutputSaveGamePath, FileMode.Open, FileAccess.Read))
-            using (FileStream save = new FileStream(SavePath, FileMode.Create, FileAccess.Write))
-            using (DeflateStream ds = new DeflateStream(save, CompressionMode.Compress))
             {
-                output.CopyTo(ds);
+                // read turn number
+                output.Position = 3827;
+                byte[] buf = new byte[4];
+                output.Read(buf, 0, 4);
+                turn = BitConverter.ToInt32(buf, 0) + 1;
+                output.Position = 0;
+
+                // pack
+                using (FileStream save = new FileStream(SavePath, FileMode.Create, FileAccess.Write))
+                using (DeflateStream ds = new DeflateStream(save, CompressionMode.Compress))
+                {
+                    output.CopyTo(ds);
+                }
             }
             return true;
         }

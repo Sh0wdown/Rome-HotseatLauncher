@@ -32,12 +32,15 @@ namespace HotseatLauncher
         bool autoManage;
         public bool AutoManage { get { return autoManage; } }
 
-        ushort turn = 1;
-        public ushort Turn { get { return turn; } }
+        int turn = 1; // uint?
+        public int Turn { get { return turn; } }
         public string TurnString
         {
             get
             {
+                if (lastPlayedFactionIndex != 0 && (currentFactionIndex == startFactionIndex || lastPlayedFactionIndex == NextPlayerFaction(startFactionIndex)))
+                    return (turn + 1).ToString();
+
                 return turn.ToString();
             }
         }

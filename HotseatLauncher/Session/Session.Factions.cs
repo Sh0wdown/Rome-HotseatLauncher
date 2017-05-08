@@ -31,15 +31,14 @@ namespace HotseatLauncher
                 if (i > index && i < result)
                     result = i;
 
-            if (result != byte.MaxValue)
-                return result;
-
-            result = index;
-            foreach (byte i in indices.Select(i => SwitchIndex(i)))
-                if (i < index && i < result)
-                    result = i;
-
-            return result;
+            if (result == byte.MaxValue)
+            {
+                result = index;
+                foreach (byte i in indices.Select(i => SwitchIndex(i)))
+                    if (i < index && i < result)
+                        result = i;
+            }
+            return SwitchIndex(result);
         }
 
         byte PrevPlayerFaction(byte index, bool all = false)
@@ -54,14 +53,13 @@ namespace HotseatLauncher
                     result = i;
 
             if (result != byte.MinValue)
-                return result;
-
-            result = index;
-            foreach (byte i in indices.Select(i => SwitchIndex(i)))
-                if (i > index && i > result)
-                    result = i;
-
-            return result;
+            {
+                result = index;
+                foreach (byte i in indices.Select(i => SwitchIndex(i)))
+                    if (i > index && i > result)
+                        result = i;
+            }
+            return SwitchIndex(result);
         }
 
         IEnumerable<FactionInfo> GetFactions(IEnumerable<byte> indices)
@@ -155,9 +153,6 @@ namespace HotseatLauncher
                 newIndex = NextPlayerFaction(lastPlayedFactionIndex);
             }
 
-            if (newIndex == currentFactionIndex)
-                return;
-
             currentFactionIndex = newIndex;
 
             if (PropertyChanged != null)
@@ -174,13 +169,9 @@ namespace HotseatLauncher
             {
                 if (factionIndex == startFactionIndex)
                 {
-                    var mod = GetModFolder();
-                    if (mod != null)
-                    {
-                        return mod.GetFaction(1).Index;
-                    }
+                    return 1;
                 }
-                else if (factionIndex == 0)
+                else if (factionIndex == 1)
                 {
                     return startFactionIndex;
                 }

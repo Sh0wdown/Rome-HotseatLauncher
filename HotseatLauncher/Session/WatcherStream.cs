@@ -117,19 +117,6 @@ namespace HotseatLauncher
             value = BitConverter.ToInt32(bytes, 0);
         }
 
-        public void Write(ushort value)
-        {
-            stream.Write(BitConverter.GetBytes(value), 0, 2);
-        }
-
-        public void Read(out ushort value)
-        {
-            byte[] bytes = new byte[2];
-            stream.Read(bytes, 0, 2);
-
-            value = BitConverter.ToUInt16(bytes, 0);
-        }
-
         public void Write(string str)
         {
             byte[] bytes = str == null ? new byte[0] : Encoding.UTF8.GetBytes(str);

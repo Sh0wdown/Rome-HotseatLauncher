@@ -10,6 +10,7 @@ using System.IO;
 namespace HotseatLauncher
 {
     // - save game / factions desync warning (even while ingame)
+    // - notifications
     // - save camera position
     // - consider faction deaths
     // - diplomacy
