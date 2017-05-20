@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Rome: Total War - Hotseat Launcher" Height="350" Width="865.5" ResizeMode="NoResize" KeyUp="Window_KeyUp">
     <Grid x:Name="mainGrid">
-        <Grid x:Name="gamesGrid">
+        <Grid x:Name="gamesGrid" Visibility="Hidden">
             <Button x:Name="gStartButton" Content="Start" HorizontalAlignment="Left" Height="21" Margin="750,10,0,0" VerticalAlignment="Top" Width="100" Click="StartGame" IsEnabled="False"/>
             <Button x:Name="gCreateButton" Content="Create" HorizontalAlignment="Left" Height="21" Margin="750,129,0,0" VerticalAlignment="Top" Width="100" Click="ShowCreationMenu"/>
             <Button x:Name="gAddButton" Content="Add" HorizontalAlignment="Left" Height="21" Margin="750,155,0,0" VerticalAlignment="Top" Width="100" Click="AddGame"/>
@@ -30,7 +30,7 @@
             </ListView>
             <Button x:Name="gPickButton" Content="Set Installation" HorizontalAlignment="Left" Height="21" Margin="750,230,0,0" VerticalAlignment="Top" Width="100" Click="gPickButton_Click" IsEnabled="False"/>
         </Grid>
-        <Grid x:Name="creationGrid" Visibility="Hidden">
+        <Grid x:Name="creationGrid">
             <Label x:Name="cModLabel" Content="Mod:" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="82"/>
             <ComboBox x:Name="cModComboBox" HorizontalAlignment="Left" Margin="97,120,0,0" VerticalAlignment="Top" Width="198" DisplayMemberPath="{Binding Source=Name}" SelectionChanged="cModComboBox_SelectionChanged" IsEnabled="False"/>
             <Label x:Name="cCampaignLabel" Content="Campaign" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="82"/>
@@ -64,8 +64,11 @@
             <Button x:Name="cBackButton" Content="Back" HorizontalAlignment="Left" Height="22" Margin="124,283,0,0" VerticalAlignment="Top" Width="91" Click="ShowGameList"/>
             <Button x:Name="cCreateButton" Content="Create" HorizontalAlignment="Left" Height="22" Margin="220,282,0,0" VerticalAlignment="Top" Width="103" Click="CreateGame"/>
             <CheckBox x:Name="cNonPlayablesComboBox" Content="Show Nonplayable Factions" HorizontalAlignment="Left" Margin="647,237,0,0" VerticalAlignment="Top" Width="173" Checked="cNonPlayablesComboBox_Checked" Unchecked="cNonPlayablesComboBox_Checked"/>
-            <CheckBox x:Name="cAutoSolveComboBox" Content="Autosolve Battles" HorizontalAlignment="Left" Margin="728,268,0,0" VerticalAlignment="Top"/>
-            <CheckBox x:Name="cAutoManageComboBox" Content="Manage everything" HorizontalAlignment="Left" Margin="728,283,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="cAutoSolveComboBox" Content="Autosolve Battles" HorizontalAlignment="Left" Margin="739,14,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="cManageAllComboBox" Content="Manage all settlements" HorizontalAlignment="Left" Margin="739,34,-1,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="cShortCampaignComboBox" Content="Short Campaign" HorizontalAlignment="Left" Margin="739,54,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="cArcadeBattlesComboBox" Content="Arcade Battles" HorizontalAlignment="Left" Margin="739,74,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="cNoTimeLimitComboBox" Content="No Battle Time Limit" HorizontalAlignment="Left" Margin="739,94,0,0" VerticalAlignment="Top"/>
         </Grid>
         <Grid x:Name="factionGrid" Visibility="Hidden">
             <ComboBox x:Name="fFactionComboBox" HorizontalAlignment="Left" Margin="155,127,0,0" VerticalAlignment="Top" Width="190" DisplayMemberPath="{Binding Source=Name}"/>

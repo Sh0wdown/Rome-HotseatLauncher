@@ -8,6 +8,24 @@ using System.Windows;
 
 namespace HotseatLauncher
 {
+    // [eax + 0x10] automanage stat
+    // [eax + 0x60] auto everything
+    // [eax + 0x61] auto recruitment
+    // [eax + 0x62] auto construction
+    // [eax + 0x63] auto taxes
+
+    // [city+0xAC8] tax level
+
+
+
+
+    // [eax+0xC0] auto construction
+
+
+    // process_cq call 0xDE40EC
+    // set automanage 0x506894
+    // 50124E
+
     static class Injection
     {
         public static void StartGame(Session session, Action OnExit)
@@ -144,10 +162,10 @@ namespace HotseatLauncher
             proc.WriteInt(version.CampaignDifficulty, session.Difficulty); // campaign difficulty
             proc.WriteInt(version.BattleDifficulty, session.Difficulty); // battle difficulty
 
-            proc.Write(version.ArcadeBattles, 0); // arcade battles
-            proc.Write(version.AutoManage, 0); // auto manage
-            proc.Write(version.NoBattleTimeLimit, 0); // no battle time limit
-            proc.Write(version.ShortCampaign, 0); // short campaign
+            proc.Write(version.ArcadeBattles, (byte)(session.ArcadeBattles ? 1 : 0)); // arcade battles
+            proc.Write(version.AutoManage, (byte)(session.AutoManage ? 1 : 0)); // auto manage
+            proc.Write(version.NoBattleTimeLimit, (byte)(session.NoBattleTimeLimit ? 1 : 0)); // no battle time limit
+            proc.Write(version.ShortCampaign, (byte)(session.ShortCampaign ? 1 : 0)); // short campaign
         }
 
         static void EditFactionTurnStart(Process proc, CodeVersion version, Session session)

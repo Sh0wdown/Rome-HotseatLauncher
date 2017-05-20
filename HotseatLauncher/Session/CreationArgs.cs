@@ -15,6 +15,9 @@ namespace HotseatLauncher
         public Difficulty Difficulty;
         public bool AutoSolve;
         public bool AutoManage;
+        public bool ShortCampaign;
+        public bool ArcadeBattles;
+        public bool NoBattleTimeLimit;
         public FactionInfo StartFaction;
         public IEnumerable<FactionInfo> FreeFactions;
     }

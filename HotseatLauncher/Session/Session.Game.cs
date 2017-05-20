@@ -32,6 +32,15 @@ namespace HotseatLauncher
         bool autoManage;
         public bool AutoManage { get { return autoManage; } }
 
+        bool shortCampaign;
+        public bool ShortCampaign { get { return shortCampaign; } }
+
+        bool arcadeBattles;
+        public bool ArcadeBattles { get { return arcadeBattles; } }
+
+        bool noBattleTimeLimit;
+        public bool NoBattleTimeLimit { get { return noBattleTimeLimit; } }
+
         int turn = 1; // uint?
         public int Turn { get { return turn; } }
         public string TurnString
@@ -74,6 +83,9 @@ namespace HotseatLauncher
                 ws.Write(difficulty);
                 ws.Write(autoSolve);
                 ws.Write(autoManage);
+                ws.Write(shortCampaign);
+                ws.Write(arcadeBattles);
+                ws.Write(noBattleTimeLimit);
                 ws.Write(startFactionIndex);
                 ws.Write(lastPlayedFactionIndex);
                 ws.Write(turn);
@@ -95,6 +107,9 @@ namespace HotseatLauncher
                     ws.Read(out difficulty);
                     ws.Read(out autoSolve);
                     ws.Read(out autoManage);
+                    ws.Read(out shortCampaign);
+                    ws.Read(out arcadeBattles);
+                    ws.Read(out noBattleTimeLimit);
                     ws.Read(out startFactionIndex);
                     ws.Read(out lastPlayedFactionIndex);
                     ws.Read(out turn);
@@ -122,6 +137,7 @@ namespace HotseatLauncher
                 difficulty = Difficulty.Unset;
                 autoSolve = false;
                 autoManage = false;
+                shortCampaign = false;
                 startFactionIndex = 0;
                 lastPlayedFactionIndex = 0;
             }

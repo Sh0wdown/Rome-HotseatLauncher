@@ -9,6 +9,8 @@ using System.IO;
 
 namespace HotseatLauncher
 {
+    // - add call addresses etc to versions
+    // - remove automanage/battle time limit from menu
     // - save game / factions desync warning (even while ingame)
     // - notifications
     // - save camera position
@@ -613,8 +615,11 @@ namespace HotseatLauncher
                 args.Difficulty = difficulty;
                 args.StartFaction = faction;
                 args.FreeFactions = cSelectedFactionsListBox.Items.Cast<CampaignFaction>().Select(f => f.Faction);
-                args.AutoSolve = (bool)cAutoSolveComboBox.IsChecked;
-                args.AutoManage = (bool)cAutoManageComboBox.IsChecked;
+                args.AutoSolve = cAutoSolveComboBox.IsChecked == true;
+                args.AutoManage = cManageAllComboBox.IsChecked != true;
+                args.ShortCampaign = cShortCampaignComboBox.IsChecked == true;
+                args.ArcadeBattles = cArcadeBattlesComboBox.IsChecked == true;
+                args.NoBattleTimeLimit = cNoTimeLimitComboBox.IsChecked == true;
                 Session.Create(args);
 
                 Settings.LastTransferPath = transferPath;

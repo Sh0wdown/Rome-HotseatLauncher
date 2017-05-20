@@ -116,6 +116,9 @@ namespace HotseatLauncher
             session.playerFactionIndex = args.StartFaction.Index;
             session.autoSolve = args.AutoSolve;
             session.autoManage = args.AutoManage;
+            session.shortCampaign = args.ShortCampaign;
+            session.arcadeBattles = args.ArcadeBattles;
+            session.noBattleTimeLimit = args.NoBattleTimeLimit;
 
             session.takenFactionIndices.Add(args.StartFaction.Index);
             session.freeFactionIndices.AddRange(args.FreeFactions.Where(f => f != args.StartFaction).Select(f => f.Index));
